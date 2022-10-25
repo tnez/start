@@ -1,0 +1,31 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"display": "Base",
+	"compilerOptions": {
+		"allowJs": false,
+		"allowUnreachableCode": false,
+		"alwaysStrict": true,
+		"composite": false,
+		"declaration": true,
+		"declarationMap": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"inlineSources": false,
+		"isolatedModules": true,
+		"lib": ["ESNext"],
+		"moduleResolution": "node",
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"noUncheckedIndexedAccess": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"preserveWatchOutput": true,
+		"removeComments": true,
+		"skipLibCheck": true,
+		"sourceMap": true,
+		"sourceRoot": "/",
+		"strict": true,
+		"strictNullChecks": true,
+		"target": "ES6"
+	}
+}

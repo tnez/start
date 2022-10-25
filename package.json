@@ -1,0 +1,29 @@
+{
+	"name": "@tnez-dev/template",
+	"version": "0.0.0",
+	"private": true,
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	],
+	"scripts": {
+		"apply:format": "prettier --write \"**/*.{cjs,css,js,jsx,json,md,mdx,mjs,ts,tsx}\"",
+		"build": "turbo run build",
+		"check:lint": "turbo run check:lint",
+		"check:format": "prettier --check \"**/*.{cjs,css,js,jsx,json,md,mdx,mjs,ts,tsx}\"",
+		"check:types": "turbo run check:types",
+		"clean": "turbo run clean",
+		"dev": "turbo run dev --parallel",
+		"test": "turbo run test",
+		"test:watch": "turbo run test:watch"
+	},
+	"devDependencies": {
+		"@tnez-dev/config": "workspace:*",
+		"turbo": "latest"
+	},
+	"engines": {
+		"node": ">=14.0.0"
+	},
+	"dependencies": {},
+	"packageManager": "pnpm@7.13.6"
+}
