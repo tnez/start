@@ -1,0 +1,9 @@
+{
+	"extends": "@tnez-dev/config/tsconfig/base.json",
+	"include": ["src/**/*.ts"],
+	"compilerOptions": {
+		"target": "ES2015",
+		"module": "commonjs",
+		"outDir": "dist"
+	}
+}
