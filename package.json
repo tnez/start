@@ -18,6 +18,7 @@
 		"test:watch": "turbo run test:watch"
 	},
 	"devDependencies": {
+		"@tnez-dev/cli": "workspace:*",
 		"@tnez-dev/config": "workspace:*",
 		"turbo": "latest"
 	},
