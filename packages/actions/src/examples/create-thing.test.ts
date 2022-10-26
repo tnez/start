@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals'
 import { mockDeep } from 'jest-mock-extended'
-import { Data } from '@tnez-dev/effects'
+import { Data } from 'effects'
 import { createThing } from './create-thing'
 
 describe('createThing', () => {

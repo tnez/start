@@ -1,5 +1,5 @@
 {
-	"name": "@tnez-dev/actions",
+	"name": "actions",
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
@@ -9,8 +9,8 @@
 		"test:watch": "jest --watch"
 	},
 	"dependencies": {
-		"@tnez-dev/effects": "workspace:*",
-		"@tnez-dev/utils": "workspace:*"
+		"effects": "workspace:*",
+		"utils": "workspace:*"
 	},
 	"devDependencies": {
 		"@jest/globals": "^29.2.1",

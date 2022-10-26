@@ -1,1 +1,1 @@
-module.exports = require('@tnez-dev/config/jest')
+module.exports = require('config/jest')
