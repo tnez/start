@@ -1,4 +1,4 @@
-`@tnez-dev/effects`
+`effects`
 
 **Effects** define how our applications interact with the outside world.
 

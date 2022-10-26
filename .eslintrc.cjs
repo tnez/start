@@ -1,3 +1,3 @@
-const { base } = require('@tnez-dev/config/eslint')
+const { base } = require('config/eslint')
 
 module.exports = base

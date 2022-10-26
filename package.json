@@ -1,5 +1,5 @@
 {
-	"name": "@tnez-dev/template",
+	"name": "template",
 	"version": "0.0.0",
 	"private": true,
 	"workspaces": [
@@ -18,8 +18,8 @@
 		"test:watch": "turbo run test:watch"
 	},
 	"devDependencies": {
-		"@tnez-dev/cli": "workspace:*",
-		"@tnez-dev/config": "workspace:*",
+		"cli": "workspace:*",
+		"config": "workspace:*",
 		"turbo": "latest"
 	},
 	"engines": {

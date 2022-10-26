@@ -1,1 +1,1 @@
-module.exports = require('@tnez-dev/config/prettier')
+module.exports = require('config/prettier')

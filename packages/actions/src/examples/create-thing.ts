@@ -1,5 +1,5 @@
-import { safelyParseError } from '@tnez-dev/utils'
-import { Data } from '@tnez-dev/effects'
+import { safelyParseError } from 'utils'
+import { Data } from 'effects'
 import type { ActionInput, ActionOutput } from '../types'
 
 export type CreateThingEffects = {
