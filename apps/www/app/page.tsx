@@ -4,13 +4,13 @@ import styles from './page.module.css'
 
 export default function Home() {
 	return (
-		<div className={styles.container}>
-			<main className={styles.main}>
-				<h1 className={styles.title}>
-					Welcome to <a href="https://nextjs.org">Next.js 13</a>
+		<div className="px-2">
+			<main className="min-h-screen py-4 flex flex-col justify-center items-center">
+				<h1 className="font-extrabold text-6xl">
+					Welcome to <a href="https://nextjs.org" className="text-indigo-600">Next.js 13</a>
 				</h1>
 
-				<p className={styles.description}>
+				<p className={[styles.description, 'bg-slate-100', 'p-4', 'rounded-lg'].join(' ')}>
 					Get started by editing{' '}
 					<code className={styles.code}>app/page.tsx</code>
 				</p>
