@@ -7,10 +7,20 @@ export default function Home() {
 		<div className="px-2">
 			<main className="min-h-screen py-4 flex flex-col justify-center items-center">
 				<h1 className="font-extrabold text-6xl">
-					Welcome to <a href="https://nextjs.org" className="text-indigo-600">Next.js 13</a>
+					Welcome to{' '}
+					<a href="https://nextjs.org" className="text-indigo-600">
+						Next.js 13
+					</a>
 				</h1>
 
-				<p className={[styles.description, 'bg-slate-100', 'p-4', 'rounded-lg'].join(' ')}>
+				<p
+					className={[
+						styles.description,
+						'bg-slate-100',
+						'p-4',
+						'rounded-lg',
+					].join(' ')}
+				>
 					Get started by editing{' '}
 					<code className={styles.code}>app/page.tsx</code>
 				</p>
