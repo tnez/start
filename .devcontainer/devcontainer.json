@@ -15,7 +15,17 @@
 		// Configure properties specific to VS Code.
 		"vscode": {
 			// Add the IDs of extensions you want installed when the container is created.
-			"extensions": ["dbaeumer.vscode-eslint"]
+			"extensions": [
+				"austenc.tailwind-docs",
+				"bradlc.vscode-tailwindcss",
+				"dbaeumer.vscode-eslint",
+				"editorconfig.editorconfig",
+				"esbenp.prettier-vscode",
+				"mrmlnc.vscode-scss",
+				"msjsdiag.debugger-for-chrome",
+				"prisma.prisma",
+				"stkb.rewrap"
+			]
 		}
 	},
 
