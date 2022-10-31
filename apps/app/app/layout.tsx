@@ -1,9 +1,7 @@
 import * as React from 'react'
-import Link from 'next/link'
 import {
 	ClerkProvider,
 	SignedIn,
-	SignedOut,
 	UserButton,
 } from '@clerk/nextjs/app-beta'
 import './globals.css'
