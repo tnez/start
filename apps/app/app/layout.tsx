@@ -1,9 +1,5 @@
 import * as React from 'react'
-import {
-	ClerkProvider,
-	SignedIn,
-	UserButton,
-} from '@clerk/nextjs/app-beta'
+import { ClerkProvider, SignedIn, UserButton } from '@clerk/nextjs/app-beta'
 import './globals.css'
 
 export default function RootLayout({
