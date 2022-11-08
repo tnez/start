@@ -1,4 +1,7 @@
-export type ActionInput<Effects = {}, Input = {}> = {
+export type ActionInput<
+	Effects = Record<string, unknown>,
+	Input = Record<string, unknown>,
+> = {
 	effects: Effects
 	input: Input
 }

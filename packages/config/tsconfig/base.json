@@ -13,6 +13,7 @@
 		"inlineSources": false,
 		"isolatedModules": true,
 		"lib": ["ESNext"],
+		"module": "CommonJS",
 		"moduleResolution": "node",
 		"noImplicitAny": true,
 		"noImplicitReturns": true,
