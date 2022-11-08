@@ -15,16 +15,19 @@
 			"outputs": []
 		},
 		"dev": {
-			"cache": false
+			"cache": false,
+			"dependsOn": ["utils#build", "effects#build", "actions#build"]
 		},
 		"clean": {
 			"cache": false
 		},
 		"test": {
-			"outputs": []
+			"outputs": [],
+			"dependsOn": ["utils#build", "effects#build", "actions#build"]
 		},
 		"test:watch": {
-			"cache": false
+			"cache": false,
+			"dependsOn": ["utils#build", "effects#build", "actions#build"]
 		}
 	}
 }
