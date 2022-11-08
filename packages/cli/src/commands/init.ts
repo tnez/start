@@ -25,14 +25,12 @@ export class InitCommand extends Command {
 
 		this.context.stdout.write(`...initializing readme\n`)
 
+		const readmeContents = await generateReadmeContent({
+			name: response.projectName,
+			desc: response.projectDesc,
+		})
 		await unlink('readme.md')
-		await writeFile(
-			'readme.md',
-			generateReadmeContent({
-				name: response.projectName,
-				desc: response.projectDesc,
-			}),
-		)
+		await writeFile('readme.md', readmeContents)
 
 		this.context.stdout.write(`...updating package.json\n`)
 		const packageJsonContents = await readFile('package.json', 'utf-8')
@@ -46,13 +44,23 @@ export class InitCommand extends Command {
 	}
 }
 
-type GenerateReadeContentInput = {
+type GenerateReadmeContentInput = {
 	name: string
 	desc: string
 }
-function generateReadmeContent({ name, desc }: GenerateReadeContentInput) {
+async function generateReadmeContent({
+	name,
+	desc,
+}: GenerateReadmeContentInput) {
+	const templateContents = await readFile(
+		'packages/cli/templates/readme.md',
+		'utf-8',
+	)
+
 	return `# ${name}
 
 ${desc}
+
+${templateContents}
 `
 }
