@@ -1,45 +1,44 @@
+import * as z from 'zod'
+import { external } from 'effects'
+import { safelyParseError } from 'utils'
+import { PokemonSchema } from './schema'
 import type { ActionInput, ActionOutput } from '../types'
+
 /**
  * What input does this action require?
  */
-export type PokemonGetListInput = Record<never, never>
+export type PokemonGetListInput = {
+	/**
+	 * Specify the number of pokemon to return.
+	 * @default 20
+	 */
+	limit?: number
+}
 
 /**
  * What output does this action produce?
  */
-export type PokemonGetListOutput = Array<{
-	id: number
-	name: string
-	img: string
-}>
+export type PokemonGetListOutput = z.infer<typeof PokemonSchema>[]
 
 /**
  * What effects does this action need?
  */
-export type PokemonGetListRequiredEffects = Record<never, never>
+export type PokemonGetListRequiredEffects = {
+	external: typeof external
+}
 
 /**
  * Configure the default effects for this action so that this work does not fall on the consumer.
  */
-const configureEffects = () => ({})
+const configureEffects = () => ({
+	external: {
+		fetch: external.fetch,
+	},
+})
 
-const MOCK_DATA: PokemonGetListOutput = [
-	{
-		id: 35,
-		name: 'clefairy',
-		img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/35.png',
-	},
-	{
-		id: 42,
-		name: 'golbat',
-		img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/42.png',
-	},
-	{
-		id: 57,
-		name: 'primeape',
-		img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/57.png',
-	},
-]
+const DEFAULT_INPUT = {
+	limit: 20,
+}
 
 /**
  * Return a list of pokemon.
@@ -51,14 +50,23 @@ export async function getList({
 	PokemonGetListRequiredEffects,
 	PokemonGetListInput
 >): ActionOutput<PokemonGetListOutput> {
-	console.log('effects...')
-	console.log(effects)
+	try {
+		const payload = await effects.external.fetch({
+			parseJson: true,
+			url: `https://pokeapi.co/api/v2/pokemon?limit=${
+				input.limit ?? DEFAULT_INPUT.limit
+			}`,
+		})
+		const data = z.array(PokemonSchema).parse(payload)
 
-	console.log('input...')
-	console.log(input)
-
-	return {
-		ok: true,
-		data: MOCK_DATA,
+		return {
+			ok: true,
+			data,
+		}
+	} catch (error) {
+		return {
+			ok: false,
+			errors: [safelyParseError(error)],
+		}
 	}
 }
