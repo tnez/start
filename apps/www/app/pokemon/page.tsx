@@ -9,23 +9,21 @@ export async function PokemonPage() {
 	}
 
 	return (
-		<div className="container mx-auto">
-			<table className="table-fixed w-full rounded-xl overflow-hidden mt-4">
-				<thead className="bg-gray-100">
-					<tr>
-						<th className="py-4">Id</th>
-						<th>Name</th>
-						<th>Image</th>
+		<div className="container max-w-lg mx-auto text-left">
+			<h1 className="text-2xl">Behold the Pokemon!</h1>
+			<table className="table-auto w-full mt-4">
+				<thead>
+					<tr className="border-solid border-gray-800 border-b">
+						<th className="py-4 mr-2">Name</th>
+						<th className="py-4">URL</th>
 					</tr>
 				</thead>
-				<tbody className="text-center">
-					{result.data.map(({ id, name, img }) => (
-						<tr key={`${id}-${name}`}>
-							<td>{id}</td>
-							<td>{name}</td>
-							<td>
-								{/* eslint-disable-next-line @next/next/no-img-element */}
-								<img alt={name} src={img} />
+				<tbody>
+					{result.data.map(({ name, url }) => (
+						<tr key={name} className="border-solid border-gray-100 border-t">
+							<td className="py-2 font-bold">{name}</td>
+							<td className="py-2 font-thin">
+								<pre className="bg-gray-100">{url}</pre>
 							</td>
 						</tr>
 					))}

@@ -1,7 +1,10 @@
 import { PrismaClient } from '@prisma/client'
 
-const client = new PrismaClient()
+/**
+ * FIXME: Prisma and monorepo setup currently not playing nice. Temporarily preventing instantiation.
+ */
+// const client = new PrismaClient()
 
-export type Client = typeof client
+export type Client = PrismaClient
 
-export default client
+export default {}

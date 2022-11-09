@@ -40,6 +40,10 @@ const DEFAULT_INPUT = {
 	limit: 20,
 }
 
+const PayloadSchema = z.object({
+	results: z.array(PokemonSchema),
+})
+
 /**
  * Return a list of pokemon.
  */
@@ -57,7 +61,8 @@ export async function getList({
 				input.limit ?? DEFAULT_INPUT.limit
 			}`,
 		})
-		const data = z.array(PokemonSchema).parse(payload)
+		console.log(payload)
+		const data = PayloadSchema.parse(payload).results
 
 		return {
 			ok: true,
