@@ -2,7 +2,7 @@ export type ActionInput<
 	Effects = Record<string, unknown>,
 	Input = Record<string, unknown>,
 > = {
-	effects: Effects
+	effects?: Effects
 	input: Input
 }
 
