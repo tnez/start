@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { pokemon } from 'actions'
 
-export async function PokemonPage() {
+export default async function PokemonPage() {
 	const result = await pokemon.getList({ input: {} })
 
 	if (!result.ok) {
@@ -32,5 +32,3 @@ export async function PokemonPage() {
 		</div>
 	)
 }
-
-export default PokemonPage
