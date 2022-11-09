@@ -28,7 +28,11 @@ export type CreateThingOutput = {
  * Configure the default effects for this action so that this work does not fall on the consumer.
  */
 const configureEffects = () => ({
-	data: Data.default,
+	/**
+	 * FIXME: Need to fix this after addressing the issue with Prism and monorepo setup.
+	 */
+	/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+	data: {} as any,
 })
 
 /**
