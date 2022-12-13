@@ -1,24 +1,24 @@
 {
-	"name": "utils",
-	"version": "0.0.0",
-	"private": true,
-	"main": "dist/index.js",
-	"types": "src/index.ts",
-	"scripts": {
-		"build": "tsc",
-		"check:lint": "eslint ./src --ext .ts",
-		"check:types": "tsc --noEmit",
-		"clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
-		"test": "jest",
-		"test:watch": "jest --watch"
-	},
-	"devDependencies": {
-		"@jest/globals": "^29.2.1",
-		"@swc/core": "^1.3.10",
-		"@swc/jest": "^0.2.23",
-		"@types/jest": "^29.2.0",
-		"config": "workspace:*",
-		"jest": "^29.2.1",
-		"typescript": "^4.8.4"
-	}
+  "name": "utils",
+  "version": "0.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "check:lint": "eslint ./src --ext .ts",
+    "check:types": "tsc --noEmit",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.2.1",
+    "@swc/core": "^1.3.10",
+    "@swc/jest": "^0.2.23",
+    "@types/jest": "^29.2.0",
+    "config": "workspace:*",
+    "jest": "^29.2.1",
+    "typescript": "^4.8.4"
+  }
 }

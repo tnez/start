@@ -7,9 +7,9 @@ const [node, app, ...args] = process.argv
 /* eslint-enable unicorn/prevent-abbreviations */
 
 const cli = new Cli({
-	binaryLabel: `tnez-dev: cli`,
-	binaryName: `${node} ${app}`,
-	binaryVersion: '0.0.0',
+  binaryLabel: `tnez-dev: cli`,
+  binaryName: `${node} ${app}`,
+  binaryVersion: '0.0.0',
 })
 
 cli.register(HelloCommand)
