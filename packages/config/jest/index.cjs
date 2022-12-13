@@ -1,5 +1,5 @@
 module.exports = {
-	transform: {
-		'^.+\\.ts$': ['@swc/jest'],
-	},
+  transform: {
+    '^.+\\.ts$': ['@swc/jest'],
+  },
 }
