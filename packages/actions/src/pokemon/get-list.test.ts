@@ -45,11 +45,9 @@ describe('happy path', () => {
       // Given...
       const effects = {
         external: {
-          fetch: jest
-            .fn()
-            .mockImplementationOnce(async () => ({
-              results: STUBBED_POKEMON_DATA,
-            })),
+          fetch: jest.fn().mockImplementationOnce(async () => ({
+            results: STUBBED_POKEMON_DATA,
+          })),
         },
       } as any
       const input = {}
