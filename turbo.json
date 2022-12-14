@@ -15,19 +15,17 @@
       "outputs": []
     },
     "dev": {
-      "cache": false,
-      "dependsOn": ["utils#build", "effects#build", "actions#build"]
+      "cache": false
     },
     "clean": {
       "cache": false
     },
     "test": {
-      "outputs": [],
-      "dependsOn": ["utils#build", "effects#build", "actions#build"]
+      "outputs": []
     },
     "test:watch": {
       "cache": false,
-      "dependsOn": ["utils#build", "effects#build", "actions#build"]
+      "outputs": []
     }
   }
 }
