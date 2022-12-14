@@ -61,7 +61,7 @@ export async function getList({
         input.limit ?? DEFAULT_INPUT.limit
       }`,
     })
-    console.log(payload)
+
     const data = PayloadSchema.parse(payload).results
 
     return {

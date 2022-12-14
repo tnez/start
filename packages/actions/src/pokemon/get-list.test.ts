@@ -3,19 +3,16 @@ import { getList } from './get-list'
 
 const STUBBED_POKEMON_DATA = [
   {
-    id: 35,
     name: 'clefairy',
-    img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/35.png',
+    url: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/35.png',
   },
   {
-    id: 42,
     name: 'golbat',
-    img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/42.png',
+    url: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/42.png',
   },
   {
-    id: 57,
     name: 'primeape',
-    img: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/57.png',
+    url: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/57.png',
   },
 ]
 
@@ -50,7 +47,9 @@ describe('happy path', () => {
         external: {
           fetch: jest
             .fn()
-            .mockImplementationOnce(async () => STUBBED_POKEMON_DATA),
+            .mockImplementationOnce(async () => ({
+              results: STUBBED_POKEMON_DATA,
+            })),
         },
       } as any
       const input = {}
