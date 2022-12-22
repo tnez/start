@@ -19,7 +19,7 @@ jobs:
       - name: Setup Environment (node)
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: 'pnpm'
 
       - name: Install Dependencies
@@ -34,7 +34,7 @@ jobs:
       - name: Commit Formatting Changes (if any)
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: "fix: apply formatting"
+          commit_message: 'fix: apply formatting'
 
       - name: Build
         run: pnpm build
