@@ -23,7 +23,7 @@ describe('happy path', () => {
         // Given...
         const effects = {
           external: {
-            fetch: jest.fn(),
+            fetch: jest.fn().mockImplementationOnce(async () => stubResponse()),
           },
         } as any
         const input = { limit: 10 }
@@ -32,10 +32,9 @@ describe('happy path', () => {
         await getList({ effects, input })
 
         // Then...
-        expect(effects.external.fetch).toHaveBeenCalledWith({
-          parseJson: true,
-          url: 'https://pokeapi.co/api/v2/pokemon?limit=10',
-        })
+        expect(effects.external.fetch).toHaveBeenCalledWith(
+          'https://pokeapi.co/api/v2/pokemon?limit=10',
+        )
       })
     })
   })
@@ -45,9 +44,7 @@ describe('happy path', () => {
       // Given...
       const effects = {
         external: {
-          fetch: jest.fn().mockImplementationOnce(async () => ({
-            results: STUBBED_POKEMON_DATA,
-          })),
+          fetch: jest.fn().mockImplementationOnce(async () => stubResponse()),
         },
       } as any
       const input = {}
@@ -63,3 +60,16 @@ describe('happy path', () => {
     })
   })
 })
+
+/**
+ * Helper to stub response object.
+ */
+function stubResponse(options: Partial<typeof Response> = {}) {
+  return {
+    json: async () => ({ results: STUBBED_POKEMON_DATA }),
+    ok: true,
+    status: 200,
+    statusText: 'OK',
+    ...options,
+  }
+}
