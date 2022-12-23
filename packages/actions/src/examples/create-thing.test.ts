@@ -1,44 +1,21 @@
 import { describe, expect, it } from '@jest/globals'
-import { mockDeep } from 'jest-mock-extended'
-import { Data } from 'effects'
-import { createThing } from './create-thing'
-
-const configureEffects = ({
-  title,
-  body,
-  rejectWith,
-}: {
-  title: string
-  body: string
-  rejectWith?: Error
-}) => {
-  const data = mockDeep<Data.Client>()
-
-  if (rejectWith) {
-    data.thing.create.mockRejectedValue(rejectWith)
-  } else {
-    data.thing.create.mockResolvedValueOnce({
-      id: 'TEST-UUID-1234',
-      title,
-      body,
-    })
-  }
-
-  return { data }
-}
+import { CreateThing } from './create-thing'
+import { mockDeep, DeepMockProxy } from 'jest-mock-extended'
+import type { Db } from 'clients/db'
 
 describe('(side) effects', () => {
-  describe('.data.thing.create', () => {
+  describe('context.db.thing.create', () => {
     it('should be invoked with expected arguments', async () => {
       // Given...
       const input = { title: 'Test Title', body: 'Test Body' }
-      const effects = configureEffects(input)
+      const context = createMockContext()
+      const action = new CreateThing(context)
 
       // When...
-      await createThing({ effects, input })
+      await action.execute(input)
 
       // Then...
-      expect(effects.data.thing.create).toHaveBeenCalledWith({
+      expect(context.db.thing.create).toHaveBeenCalledWith({
         data: input,
       })
     })
@@ -50,10 +27,11 @@ describe('return value', () => {
     it('should return expected value', async () => {
       // Given...
       const input = { title: 'Test Title', body: 'Test Body' }
-      const effects = configureEffects(input)
+      const context = createMockContext()
+      const action = new CreateThing(context)
 
       // When...
-      const result = await createThing({ effects, input })
+      const result = await action.execute(input)
 
       // Then...
       expect(result).toEqual({
@@ -71,13 +49,21 @@ describe('return value', () => {
         body: 'A test body.',
       }
       const error = new Error('test')
-      const effects = configureEffects({ ...input, rejectWith: error })
+      const context = createMockContext()
+      context.db.thing.create.mockRejectedValue(error)
+      const action = new CreateThing(context)
 
       // When...
-      const result = await createThing({ effects, input })
+      const result = await action.execute(input)
 
       // Then...
       expect(result).toStrictEqual({ ok: false, errors: [error] })
     })
   })
 })
+
+function createMockContext() {
+  return {
+    db: mockDeep<DeepMockProxy<Db>>(),
+  }
+}

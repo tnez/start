@@ -85,6 +85,7 @@ importers:
       '@swc/jest': ^0.2.23
       '@types/jest': ^29.2.0
       '@types/node': ^18.11.3
+      clients: workspace:*
       config: workspace:*
       effects: workspace:*
       jest: ^29.2.1
@@ -93,6 +94,7 @@ importers:
       utils: workspace:*
       zod: ^3.19.1
     dependencies:
+      clients: link:../clients
       effects: link:../effects
       utils: link:../utils
       zod: 3.19.1
