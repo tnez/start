@@ -1,13 +1,6 @@
+import { data } from 'clients'
 import { safelyParseError } from 'utils'
-import { Data } from 'effects'
-import type { ActionInput, ActionOutput } from '../types'
-
-/**
- * What effects does this action depend upon?
- */
-export type CreateThingEffects = {
-  data: Data.Client
-}
+import type { ActionOutput } from '../types'
 
 /**
  * What input does this action require?
@@ -25,28 +18,13 @@ export type CreateThingOutput = {
 }
 
 /**
- * Configure the default effects for this action so that this work does not fall on the consumer.
- */
-const configureEffects = () => ({
-  /**
-   * FIXME: Need to fix this after addressing the issue with Prism and monorepo setup.
-   */
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  data: {} as any,
-})
-
-/**
  * This is an example action which creates a new `thing`. A `thing` is just an arbitrary _thing_ to demonstrate how actions interact with effects as well as how we go about testing them.
  */
-export async function createThing({
-  effects = configureEffects(),
-  input,
-}: ActionInput<
-  CreateThingEffects,
-  CreateThingInput
->): ActionOutput<CreateThingOutput> {
+export async function createThing(
+  input: CreateThingInput,
+): ActionOutput<CreateThingOutput> {
   try {
-    const { id } = await effects.data.thing.create({ data: input })
+    const { id } = await data.thing.create({ data: input })
     return { ok: true, data: { id } }
   } catch (error) {
     return { ok: false, errors: [safelyParseError(error)] }
