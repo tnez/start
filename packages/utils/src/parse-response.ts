@@ -17,9 +17,7 @@ export function parseResponse(options: Options | undefined = {}) {
   return async (response: Response) => {
     try {
       if (!response.ok) {
-        throw new Error(
-          `Fetch failed with ${response.status} ${response.statusText}`,
-        )
+        throw new Error(`${response.status} ${response.statusText}`)
       }
 
       return options.parseAs === undefined
@@ -27,7 +25,7 @@ export function parseResponse(options: Options | undefined = {}) {
         : response[options.parseAs]()
     } catch (error: unknown) {
       const { message } = safelyParseError(error)
-      throw new Error(`Failed to parse response: ${message}`)
+      throw new Error(message)
     }
   }
 }
