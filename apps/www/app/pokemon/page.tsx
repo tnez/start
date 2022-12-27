@@ -1,8 +1,10 @@
 import * as React from 'react'
 import { pokemon } from 'actions'
 
+const GetPokemon = new pokemon.GetList({ fetch })
+
 export default async function PokemonPage() {
-  const result = await pokemon.getList({ input: {} })
+  const result = await GetPokemon.execute({ limit: 25 })
 
   if (!result.ok) {
     return <div>Uh, oh, something went wrong...</div>
