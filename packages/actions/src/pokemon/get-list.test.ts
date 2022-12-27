@@ -1,5 +1,44 @@
 import { describe, expect, it, jest } from '@jest/globals'
-import { getList } from './get-list'
+import { GetList, GetListContext } from './get-list'
+
+describe('happy path', () => {
+  describe('(side) effecets', () => {
+    describe('.external.fetch', () => {
+      it('should be invoked with expected arguments', async () => {
+        // Given...
+        const context = createMockContext()
+        const input = { limit: 10 }
+        const action = new GetList(context)
+
+        // When...
+        await action.execute(input)
+
+        // Then...
+        expect(context.fetch).toHaveBeenCalledWith(
+          'https://pokeapi.co/api/v2/pokemon?limit=10',
+        )
+      })
+    })
+  })
+
+  describe('return value', () => {
+    it('should return expected value', async () => {
+      // Given...
+      const context = createMockContext()
+      const input = {}
+      const action = new GetList(context)
+
+      // When...
+      const result = await action.execute(input)
+
+      // Then...
+      expect(result).toEqual({
+        ok: true,
+        data: STUBBED_POKEMON_DATA,
+      })
+    })
+  })
+})
 
 const STUBBED_POKEMON_DATA = [
   {
@@ -16,60 +55,18 @@ const STUBBED_POKEMON_DATA = [
   },
 ]
 
-describe('happy path', () => {
-  describe('(side) effecets', () => {
-    describe('.external.fetch', () => {
-      it('should be invoked with expected arguments', async () => {
-        // Given...
-        const effects = {
-          external: {
-            fetch: jest.fn().mockImplementationOnce(async () => stubResponse()),
-          },
-        } as any
-        const input = { limit: 10 }
-
-        // When...
-        await getList({ effects, input })
-
-        // Then...
-        expect(effects.external.fetch).toHaveBeenCalledWith(
-          'https://pokeapi.co/api/v2/pokemon?limit=10',
-        )
-      })
-    })
-  })
-
-  describe('return value', () => {
-    it('should return expected value', async () => {
-      // Given...
-      const effects = {
-        external: {
-          fetch: jest.fn().mockImplementationOnce(async () => stubResponse()),
-        },
-      } as any
-      const input = {}
-
-      // When...
-      const result = await getList({ effects, input })
-
-      // Then...
-      expect(result).toEqual({
-        ok: true,
-        data: STUBBED_POKEMON_DATA,
-      })
-    })
-  })
-})
-
-/**
- * Helper to stub response object.
- */
-function stubResponse(options: Partial<typeof Response> = {}) {
-  return {
+function createMockContext(
+  overrides: Partial<typeof Response> = {},
+): GetListContext {
+  const stubbedResponse = {
     json: async () => ({ results: STUBBED_POKEMON_DATA }),
     ok: true,
     status: 200,
     statusText: 'OK',
-    ...options,
+    ...overrides,
   }
+
+  return {
+    fetch: jest.fn().mockImplementationOnce(async () => stubbedResponse),
+  } as unknown as GetListContext
 }
