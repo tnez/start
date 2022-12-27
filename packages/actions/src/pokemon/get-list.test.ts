@@ -2,40 +2,44 @@ import { describe, expect, it, jest } from '@jest/globals'
 import { GetList, GetListContext } from './get-list'
 
 describe('happy path', () => {
-  describe('(side) effecets', () => {
-    describe('.external.fetch', () => {
-      it('should be invoked with expected arguments', async () => {
-        // Given...
-        const context = createMockContext()
-        const input = { limit: 10 }
-        const action = new GetList(context)
+  it('should work as expected', async () => {
+    // Given...
+    const context = createMockContext()
+    const input = { limit: 10 }
+    const action = new GetList(context)
 
-        // When...
-        await action.execute(input)
+    // When...
+    const result = await action.execute(input)
 
-        // Then...
-        expect(context.fetch).toHaveBeenCalledWith(
-          'https://pokeapi.co/api/v2/pokemon?limit=10',
-        )
-      })
+    // Then...
+    expect(context.fetch).toHaveBeenCalledWith(
+      'https://pokeapi.co/api/v2/pokemon?limit=10',
+    )
+    expect(result).toEqual({
+      ok: true,
+      data: STUBBED_POKEMON_DATA,
     })
   })
+})
 
-  describe('return value', () => {
-    it('should return expected value', async () => {
-      // Given...
-      const context = createMockContext()
-      const input = {}
-      const action = new GetList(context)
+describe('when context.fetch fails with error', () => {
+  it('should return expected value', async () => {
+    // Given...
+    const context = createMockContext({
+      ok: false,
+      status: 418,
+      statusText: `I'm a teapot`,
+    })
+    const input = { limit: 10 }
+    const action = new GetList(context)
 
-      // When...
-      const result = await action.execute(input)
+    // When...
+    const result = await action.execute(input)
 
-      // Then...
-      expect(result).toEqual({
-        ok: true,
-        data: STUBBED_POKEMON_DATA,
-      })
+    // Then...
+    expect(result).toStrictEqual({
+      ok: false,
+      errors: [new Error(`418 I'm a teapot`)],
     })
   })
 })
@@ -55,9 +59,7 @@ const STUBBED_POKEMON_DATA = [
   },
 ]
 
-function createMockContext(
-  overrides: Partial<typeof Response> = {},
-): GetListContext {
+function createMockContext(overrides: Partial<Response> = {}): GetListContext {
   const stubbedResponse = {
     json: async () => ({ results: STUBBED_POKEMON_DATA }),
     ok: true,

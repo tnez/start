@@ -10,9 +10,7 @@ describe('when response.ok is false', () => {
     })
     const parse = parseResponse()
 
-    return expect(parse(response)).rejects.toThrow(
-      'Fetch failed with 500 Internal Server Error',
-    )
+    return expect(parse(response)).rejects.toThrow('500 Internal Server Error')
   })
 })
 

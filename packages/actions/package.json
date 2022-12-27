@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "clients": "workspace:*",
-    "effects": "workspace:*",
     "utils": "workspace:*",
     "zod": "^3.19.1"
   },

@@ -24,31 +24,19 @@ We organize code into two general buckets:
 
 More info regarding any of the particular `apps` can be found in their respective `readme.md`'s.
 
-### Action / Effect Pattern
+### Actions
 
-Two packages `packages/actions` and `packages/effects` deserve special mention. They serve to define the core-business logic of the application as well as how the application interacts with the outside world.
-
-#### Actions
-
-An action is a meaningful activity defined in the language of a stakeholder. They can be something like:
+An action is a meaningful activity defined in the language of a stakeholder which may be something like:
 
 - `create-user`
 - `start-session`
 - `show-offer`
 - `send-payment`
 
-We define them in such a way that they do not directly interact with the outside world. Instead, we inject a set of `effects` that the action can invoke. In this way we can unit test these actions by providing mock effects under test where we assert that:
+We define them in such a way that they do not directly interact with the outside world. Instead, we inject a `context` object that the action can use to interact with the outside world. In this way we can unit test these actions by providing mock clients under test where we assert that:
 
-1. All desired effects are invoked as expected.
-2. Expected value is returned for both happy and sad paths.
+1. For the happy path:
+    - all clients are invoked as expected
+    - an expected value is returned
 
-#### Effects
-
-An effect is a way for the application to so _something_:
-
-- read / write data to a database
-- store a file in the cloud
-- emit a message to a loggin service
-- send a welcome email to a new user
-
-Effects provide an interface with which actions will work and may encapsulate the logic of 3rd-party clients.
+2. For all clients, possible errors are handled and return appropriate error objects
