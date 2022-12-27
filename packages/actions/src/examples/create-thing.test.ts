@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals'
 import { CreateThing } from './create-thing'
 import { mockDeep, DeepMockProxy } from 'jest-mock-extended'
-import type { Db } from 'clients/db'
+import type { Db } from 'clients'
 
 describe('(side) effects', () => {
   describe('context.db.thing.create', () => {
@@ -28,6 +28,9 @@ describe('return value', () => {
       // Given...
       const input = { title: 'Test Title', body: 'Test Body' }
       const context = createMockContext()
+      ;(context.db.thing.create as any).mockResolvedValueOnce({
+        id: 'TEST-UUID-1234',
+      })
       const action = new CreateThing(context)
 
       // When...
@@ -41,7 +44,7 @@ describe('return value', () => {
     })
   })
 
-  describe('when .data.thing.create throws exception', () => {
+  describe('when context.db.thing.create throws exception', () => {
     it('should return expected value', async () => {
       // Given...
       const input = {
@@ -50,7 +53,7 @@ describe('return value', () => {
       }
       const error = new Error('test')
       const context = createMockContext()
-      context.db.thing.create.mockRejectedValue(error)
+      ;(context.db.thing.create as any).mockRejectedValueOnce(error)
       const action = new CreateThing(context)
 
       // When...

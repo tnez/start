@@ -1,8 +1,9 @@
 import { safelyParseError } from 'utils'
 import type { Action } from '../action'
+import type { Db } from 'clients'
 
 export type CreateThingContext = {
-  db: any
+  db: Db
 }
 
 /**
