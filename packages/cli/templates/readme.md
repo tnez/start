@@ -36,7 +36,8 @@ An action is a meaningful activity defined in the language of a stakeholder whic
 We define them in such a way that they do not directly interact with the outside world. Instead, we inject a `context` object that the action can use to interact with the outside world. In this way we can unit test these actions by providing mock clients under test where we assert that:
 
 1. For the happy path:
-    - all clients are invoked as expected
-    - an expected value is returned
+
+   - all clients are invoked as expected
+   - an expected value is returned
 
 2. For all clients, possible errors are handled and return appropriate error objects
