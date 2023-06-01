@@ -26,10 +26,10 @@
     "test": "turbo run test"
   },
   "devDependencies": {
+    "prettier": "latest",
     "turbo": "latest"
   },
   "engines": {
     "node": ">=18.0.0"
-  },
-  "dependencies": {}
+  }
 }
