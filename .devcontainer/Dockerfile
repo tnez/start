@@ -14,4 +14,4 @@ RUN echo "Installing `lazygit`..." \
 
 # [Optional] Uncomment if you want to install more global node modules
 # RUN su node -c "npm install -g <your-package-list-here>"
-RUN su node -c "npm install -g pnpm@7"
+RUN su node -c "npm install -g pnpm@8"
