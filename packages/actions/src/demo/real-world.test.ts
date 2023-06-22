@@ -1,5 +1,5 @@
 import { afterEach, beforeAll, describe, it, expect, vi } from 'vitest'
-import { mockDeep, MockProxy } from 'vitest-mock-extended'
+import { mockDeep, DeepMockProxy } from 'vitest-mock-extended'
 import { RealWorld, RealWorldContext } from './real-world'
 
 describe('RealWorld', () => {
@@ -7,7 +7,7 @@ describe('RealWorld', () => {
     vi.clearAllMocks()
   })
 
-  let context: MockProxy<RealWorldContext>
+  let context: DeepMockProxy<RealWorldContext>
   beforeAll(() => {
     context = mockDeep<RealWorldContext>()
   })
@@ -34,7 +34,7 @@ describe('RealWorld', () => {
         context.effects.fetch.mockResolvedValue({
           ok: true,
           json: async () => [1, 2, 3],
-        })
+        } as any)
 
         const action = new RealWorld(context)
         result = await action.run({})
@@ -100,7 +100,7 @@ describe('RealWorld', () => {
           ok: false,
           status: 401,
           statusText: 'Unauthorized',
-        })
+        } as any)
         const action = new RealWorld(context)
 
         result = await action.run({})
