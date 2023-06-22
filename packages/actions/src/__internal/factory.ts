@@ -9,6 +9,10 @@ type Metadata = {
    */
   correlationId: string
   /**
+   * The display name of the action to be used in metadata and logs.
+   */
+  name: string
+  /**
    * The count of milliseconds that the action took to complete (either
    * successfully or unsuccessfully).
    * @example 1024
@@ -21,13 +25,16 @@ type SadResponse = { ok: false; error: string; metadata: Metadata }
 type Response<Output> = HappyResponse<Output> | SadResponse
 
 export function createAction<Context, Input, Output>(
+  name: string,
   handler: (ctx: Context, input: Input) => Promise<Output> | Output,
 ) {
   return class Action {
     private readonly ctx: Context
+    private readonly name: string
 
     constructor(context: Context) {
       this.ctx = context
+      this.name = name
     }
 
     private generateMetadata({
@@ -39,6 +46,7 @@ export function createAction<Context, Input, Output>(
     }): Metadata {
       return {
         correlationId: correlationId ?? nanoid(),
+        name: this.name,
         runtime: Date.now() - startTime,
       }
     }

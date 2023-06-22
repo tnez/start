@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { nanoid } from 'nanoid'
 import { createAction } from './factory'
 
@@ -19,8 +19,8 @@ describe('createAction', () => {
   }
 
   it('returns a HappyResponse when operation is successful', async () => {
-    const action = createAction(handler)
-    const instance = new action({ user: 'admin' })
+    const TestAction = createAction('TestAction', handler)
+    const instance = new TestAction({ user: 'admin' })
     const result = await instance.run({ id: 1 })
 
     expect(result.ok).toBe(true)
@@ -28,11 +28,12 @@ describe('createAction', () => {
     expect(result.data).toEqual({ status: 'success' })
     expect(result.metadata).toHaveProperty('correlationId')
     expect(result.metadata).toHaveProperty('runtime')
+    expect(result.metadata.name).toBe('TestAction')
   })
 
   it('returns a SadResponse when operation fails', async () => {
-    const action = createAction(handler)
-    const instance = new action({ user: 'guest' })
+    const TestAction = createAction('TestAction', handler)
+    const instance = new TestAction({ user: 'guest' })
     const result = await instance.run({ id: 1 })
 
     expect(result.ok).toBe(false)
@@ -40,12 +41,13 @@ describe('createAction', () => {
     expect(result.error).toEqual('Invalid operation')
     expect(result.metadata).toHaveProperty('correlationId')
     expect(result.metadata).toHaveProperty('runtime')
+    expect(result.metadata.name).toBe('TestAction')
   })
 
   it('uses provided correlationId when it is passed', async () => {
     const correlationId = nanoid()
-    const action = createAction(handler)
-    const instance = new action({ user: 'admin' })
+    const TestAction = createAction('TestAction', handler)
+    const instance = new TestAction({ user: 'admin' })
     const result = await instance.run({ id: 1 }, correlationId)
 
     expect(result.metadata.correlationId).toBe(correlationId)

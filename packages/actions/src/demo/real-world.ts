@@ -56,4 +56,4 @@ async function handler(
  * For the purpsose of demonstration, let's assume we want to grab the first 10
  * entrires from Hacker News and persist them to a database.
  */
-export const RealWorld = createAction(handler)
+export const RealWorld = createAction('RealWorldAction', handler)
