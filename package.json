@@ -1,5 +1,13 @@
 {
-  "name": "template",
+  "name": "@project_name/root",
+  "description": "This is a monorepo starter",
+  "keywords": [
+    "javascript",
+    "typescript",
+    "monorepo",
+    "turborepo",
+    "nextjs"
+  ],
   "version": "0.0.0",
   "private": true,
   "workspaces": [
@@ -7,24 +15,21 @@
     "packages/*"
   ],
   "scripts": {
-    "apply:format": "prettier --write \"**/*.{cjs,css,js,jsx,json,md,mdx,mjs,ts,tsx}\"",
     "build": "turbo run build",
+    "check:all": "pnpm check:lint && pnpm check:types && pnpm check:format",
     "check:lint": "turbo run check:lint",
     "check:format": "prettier --check \"**/*.{cjs,css,js,jsx,json,md,mdx,mjs,ts,tsx}\"",
     "check:types": "turbo run check:types",
     "clean": "turbo run clean",
-    "dev": "turbo run dev --parallel",
-    "test": "turbo run test",
-    "test:watch": "turbo run test:watch"
+    "dev": "turbo run dev",
+    "fix:format": "prettier --write \"**/*.{cjs,css,js,jsx,json,md,mdx,mjs,ts,tsx}\"",
+    "test": "turbo run test"
   },
   "devDependencies": {
-    "cli": "workspace:*",
-    "config": "workspace:*",
-    "turbo": "latest"
+    "prettier": "latest",
+    "turbo": "^1.10.3"
   },
   "engines": {
-    "node": ">=14.0.0"
-  },
-  "dependencies": {},
-  "packageManager": "pnpm@7.13.6"
+    "node": ">=18.0.0"
+  }
 }

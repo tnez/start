@@ -20,10 +20,7 @@
         "bradlc.vscode-tailwindcss",
         "dbaeumer.vscode-eslint",
         "editorconfig.editorconfig",
-        "esbenp.prettier-vscode",
-        "mrmlnc.vscode-scss",
-        "prisma.prisma",
-        "stkb.rewrap"
+        "esbenp.prettier-vscode"
       ]
     }
   },

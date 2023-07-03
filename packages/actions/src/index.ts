@@ -1,2 +1,1 @@
-// export * as examples from './examples'
-export * as pokemon from './pokemon'
+export * from './demo'

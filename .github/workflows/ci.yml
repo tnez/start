@@ -14,7 +14,7 @@ jobs:
       - name: Setup Environment (pnpm)
         uses: pnpm/action-setup@v2
         with:
-          version: 7
+          version: 8
 
       - name: Setup Environment (node)
         uses: actions/setup-node@v3
@@ -23,30 +23,10 @@ jobs:
           cache: 'pnpm'
 
       - name: Install Dependencies
-        run: pnpm i
+        run: pnpm i --frozen-lockfile
 
-      - name: Apply (Format)
-        run: pnpm apply:format
-
-      - name: Check (Format)
-        run: pnpm check:format
-
-      - name: Commit Formatting Changes (if any)
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: 'fix: apply formatting'
-
-      - name: Build
-        run: pnpm build
-
-      - name: Check (Lint)
-        run: pnpm check:lint
-
-      - name: Check (Types)
-        run: pnpm check:types
+      - name: Run All Checks
+        run: pnpm check:all
 
       - name: Test
-        run: echo 'TODO, we should eventually have tests'
-
-      - name: Deploy
-        run: echo 'TODO, deployment should be managed by our CI'
+        run: pnpm test
