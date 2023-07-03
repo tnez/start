@@ -1,4 +1,4 @@
-import { createAction } from '../__internal/factory'
+import { createAction } from '@tnezdev/actions'
 
 export type HelloWorldContext = { salutation?: 'Hello' | 'Hi' | 'Hey there' }
 export type HelloWorldInput = { name?: string }
@@ -14,4 +14,4 @@ const handler = async (
   return { message: `${salutation}, ${name}!` }
 }
 
-export const HelloWorld = createAction('HelloWorldAction', handler)
+export const HelloWorldAction = createAction('HelloWorldAction', handler)

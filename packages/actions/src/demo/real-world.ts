@@ -1,4 +1,5 @@
-import { createAction } from '../__internal/factory'
+import { createAction } from '@tnezdev/actions'
+import type { ActionHandler } from '@tnezdev/actions'
 
 export type RealWorldContext = {
   effects: {
@@ -27,19 +28,25 @@ export type RealWorldOutput = {
 
 const TOP_STORIES_URL = 'https://hacker-news.firebaseio.com/v0/topstories.json'
 
-async function handler(
-  ctx: RealWorldContext,
-  input: RealWorldInput,
-): Promise<RealWorldOutput> {
+const handler: ActionHandler<
+  RealWorldContext,
+  RealWorldInput,
+  RealWorldOutput
+> = async (ctx, input) => {
   const { data, fetch } = ctx.effects
   const { numberOfEntries } = { ...DEFAULT_INPUT, ...input }
+
+  ctx.logger.info('Fetching top 10 entries from Hacker News')
 
   // Fetch the top 10 entries from Hacker News.
   const response = await fetch(TOP_STORIES_URL, {
     headers: { Accept: 'application/json' },
   })
+
   if (!response.ok) {
-    throw new Error(`${response.status} ${response.statusText}`)
+    const message = `${response.status} ${response.statusText}`
+    ctx.logger.error(message)
+    throw new Error(message)
   }
   const entries = (await response.json()).slice(0, numberOfEntries)
 
@@ -56,4 +63,4 @@ async function handler(
  * For the purpsose of demonstration, let's assume we want to grab the first 10
  * entrires from Hacker News and persist them to a database.
  */
-export const RealWorld = createAction('RealWorldAction', handler)
+export const RealWorldAction = createAction('RealWorldAction', handler)

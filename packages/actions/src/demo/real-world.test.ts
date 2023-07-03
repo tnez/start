@@ -1,25 +1,33 @@
-import { afterEach, beforeAll, describe, it, expect, vi } from 'vitest'
-import { mockDeep, DeepMockProxy } from 'vitest-mock-extended'
-import { RealWorld, RealWorldContext } from './real-world'
+import { describe, it, expect, vi } from 'vitest'
+import { DeepMockProxy, mockDeep } from 'vitest-mock-extended'
+import { RealWorldAction } from './real-world'
+import type { RealWorldContext } from './real-world'
+
+function createMockContext(
+  overrides: Partial<RealWorldContext['effects']> = {},
+) {
+  const defaults = {
+    data: mockDeep<RealWorldContext['effects']['data']>(),
+    fetch: vi.fn(async () => ({
+      ok: true,
+      json: async () => [1, 2, 3],
+    })),
+  }
+
+  return {
+    effects: {
+      data: overrides.data ?? defaults.data,
+      fetch: overrides.fetch ?? defaults.fetch,
+    },
+  } as DeepMockProxy<RealWorldContext>
+}
 
 describe('RealWorld', () => {
-  afterEach(() => {
-    vi.clearAllMocks()
-  })
-
-  let context: DeepMockProxy<RealWorldContext>
-  beforeAll(() => {
-    context = mockDeep<RealWorldContext>()
-  })
-
-  it('instantiates successfully', () => {
-    const action = new RealWorld(context)
-    expect(action).toBeInstanceOf(RealWorld)
-  })
-
   describe('when run', () => {
     it('should invoke effects.fetch with expected arguments', async () => {
-      const action = new RealWorld(context)
+      const context = createMockContext()
+
+      const action = RealWorldAction.initialize(context)
       await action.run({})
 
       expect(context.effects.fetch).toHaveBeenCalledWith(
@@ -29,18 +37,12 @@ describe('RealWorld', () => {
     })
 
     describe('when effects.fetch returns valid results', () => {
-      let result: any
-      beforeAll(async () => {
-        context.effects.fetch.mockResolvedValue({
-          ok: true,
-          json: async () => [1, 2, 3],
-        } as any)
+      it('should invoke effects.data.insert for each entry', async () => {
+        const context = createMockContext()
 
-        const action = new RealWorld(context)
-        result = await action.run({})
-      })
+        const action = RealWorldAction.initialize(context)
+        await action.run({})
 
-      it('should invoke effects.data.insert for each entry', () => {
         expect(context.effects.data.insert).toHaveBeenNthCalledWith(1, {
           id: 1,
         })
@@ -52,7 +54,12 @@ describe('RealWorld', () => {
         })
       })
 
-      it('should return expected result', () => {
+      it('should return expected result', async () => {
+        const context = createMockContext()
+
+        const action = RealWorldAction.initialize(context)
+        const result = await action.run({})
+
         expect(result).toMatchObject({
           ok: true,
           data: {
@@ -62,58 +69,79 @@ describe('RealWorld', () => {
       })
 
       describe('when numberOfEntries is provided', () => {
-        let result: any
-        beforeAll(async () => {
-          const input = { numberOfEntries: 2 }
-          const action = new RealWorld(context)
-          result = await action.run(input)
-        })
+        it('should limit return up to number of entries', async () => {
+          const context = createMockContext()
 
-        it('should limit return up to number of entries', () => {
+          const action = RealWorldAction.initialize(context)
+          const result = await action.run({ numberOfEntries: 2 })
+
+          if (!result.ok) {
+            throw new Error('Expected result to be ok')
+          }
+
           expect(result.data.entries).toHaveLength(2)
         })
       })
 
       describe('if effects.data.insert is not ok', () => {
-        let result: any
-        beforeAll(async () => {
-          context.effects.data.insert.mockRejectedValue(
-            new Error('Something Bad'),
-          )
-          const action = new RealWorld(context)
-          result = await action.run({})
-        })
+        it('should return expected result', async () => {
+          const expectedError = new Error('Something Bad')
+          const context = createMockContext({
+            data: {
+              insert: vi.fn(async () => {
+                throw expectedError
+              }),
+            },
+          })
 
-        it('should return expected result', () => {
+          const action = RealWorldAction.initialize(context)
+          const result = await action.run({})
+
           expect(result).toMatchObject({
             ok: false,
-            error: 'Something Bad',
+            error: expectedError,
           })
         })
       })
     })
 
     describe('when effects.fetch is not OK', () => {
-      let result: any
-      beforeAll(async () => {
-        context.effects.fetch.mockResolvedValue({
-          ok: false,
-          status: 401,
-          statusText: 'Unauthorized',
-        } as any)
-        const action = new RealWorld(context)
+      it('should not invoke effects.data.insert', async () => {
+        const context = createMockContext({
+          fetch: vi.fn(
+            async () =>
+              ({
+                ok: false,
+                status: 401,
+                statusText: 'Unauthorized',
+              } as any),
+          ),
+        })
 
-        result = await action.run({})
-      })
+        const action = RealWorldAction.initialize(context)
+        await action.run({})
 
-      it('should not invoke effects.data.insert', () => {
         expect(context.effects.data.insert).not.toHaveBeenCalled()
       })
 
-      it('should return expected result', () => {
+      it('should return expected result', async () => {
+        const context = createMockContext({
+          fetch: vi.fn(
+            async () =>
+              ({
+                ok: false,
+                status: 401,
+                statusText: 'Unauthorized',
+              } as any),
+          ),
+        })
+
+        const action = RealWorldAction.initialize(context)
+        const result = await action.run({})
+
         expect(result).toMatchObject({
           ok: false,
-          error: '401 Unauthorized',
+          error: new Error('401 Unauthorized'),
         })
       })
     })
